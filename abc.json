@@ -1,0 +1,17 @@
+{
+    "name": "number-range",
+    "comName":"NumberRange",
+    "version": "1.0",
+    "desc": "",
+    "tag":"number,数字,数字校验,kissy-mini",
+    "githubName":"gafish",
+    "author": {
+        "name": "圆影",
+        "email": "yuanying.xh@alibaba-inc.com",
+        "page": ""
+    },
+	"flexComboPort":"8081",
+	"reserveServerPort":"8080",
+    "type": "kissy-gallery",
+    "type-url": "http://gallery.kissyui.com/guide"
+}
