@@ -2,13 +2,14 @@
     "name": "number-range",
     "comName":"NumberRange",
     "version": "1.0",
-    "desc": "",
-    "tag":"number,数字,数字校验,kissy-mini",
+    "desc": "数字范围校验组件，支持正值数字，包括小数点的校验",
+    "cover":"http://gtms04.alicdn.com/tps/i4/T11.XJFT4cXXbuvm_S-300-120.png",
+    "tag":"number,数字,数字校验",
     "githubName":"gafish",
     "author": {
         "name": "圆影",
-        "email": "yuanying.xh@alibaba-inc.com",
-        "page": ""
+        "email": "49321443@qq.com",
+        "page": "https://github.com/gafish/number-range"
     },
 	"flexComboPort":"8081",
 	"reserveServerPort":"8080",

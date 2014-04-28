@@ -61,28 +61,23 @@ KISSY.add(function(S, Node, Event, Overlay) {
         _showTip: function(el,error){
             var self = this;
             var key = error.type+'TipText';
-            var tipText = S.substitute(el[key] || this.cfg[key],error);
-            var content = S.substitute(el.tpl || this.cfg.tpl,{tipText:tipText});
-            if (!el[0].Popup) {
-                el[0].Popup = new Overlay.Popup({
-                    elCls: el.cls || self.cfg.cls
-                });
-                el[0].Popup.render();
-            };
-            el[0].Popup.set('content',content);
-            el[0].Popup.set('align',{
+            var tipText = S.substitute(el[0][key] || this.cfg[key],error);
+            var content = S.substitute(el[0].tpl || this.cfg.tpl,{tipText:tipText});
+            var layer = this.getLayer();
+            layer.set('content',content);
+            layer.set('align',{
                 points: el[0].points || self.cfg.points,
                 offset: el[0].offset || self.cfg.offset,
                 node: el
             });
-            el[0].Popup.show();
+            layer.show();
         },
-        _hidePopup: function(el){
-            el[0].Popup && el[0].Popup.hide();
+        _hidePopup: function(){
+            this.getLayer().hide();
         },
         _checkNumber: function(el,currentValue){
-            var min = el.attr('data-min')*1 || el[0].min*1 || this.cfg.min;
-            var max = el.attr('data-max')*1 || el[0].max*1 || this.cfg.max;
+            var min = this._toNumber(el.attr('data-min')) || this._toNumber(el[0].min) || this.cfg.min;
+            var max = this._toNumber(el.attr('data-max')) || this._toNumber(el[0].max) || this.cfg.max;
             var currentValue = this._fixedNumber(el,currentValue);
             var error;
             if (currentValue<min) {
@@ -101,7 +96,7 @@ KISSY.add(function(S, Node, Event, Overlay) {
                 if (successFun) {
                     successFun(el);
                 } else{
-                    this._hidePopup(el);
+                    this._hidePopup();
                 };
             } else{
                 var errorFun = el[0].error || this.cfg.error;
@@ -118,14 +113,14 @@ KISSY.add(function(S, Node, Event, Overlay) {
             var currentValue = S.trim(el.val());
             if (!this._isNumber(currentValue)) {
                 this._removeNotNumber(el,currentValue);
-                this._hidePopup(el);
+                this._hidePopup();
             }else{
                 this._checkNumber(el,currentValue);
             }
         },
         _setEL: function(el,config,callback){
             if (!el) return;
-            var cfg = S.merge(DefaultConfig,config||{});
+            var cfg = S.merge(this.cfg,config||{});
             var els = typeof el == 'string' ? $(el):el;
             els.each(function(el,index){
                 S.each(cfg,function(value,key,o){
@@ -134,6 +129,9 @@ KISSY.add(function(S, Node, Event, Overlay) {
                 callback && callback(el);
             });
             return els;
+        },
+        _toNumber: function(val) {
+            return val * 1;
         },
         verify: function(el,config){
             var self = this;
@@ -147,7 +145,33 @@ KISSY.add(function(S, Node, Event, Overlay) {
                 simpleEL.on('valuechange',function(){
                     self._checkEL(simpleEL);
                 });
+                simpleEL.on('blur',function(){
+                    self._hidePopup();
+                });
             });
+        },
+        getRange: function(el, config) {
+            var cfg = S.merge(this.cfg, config),
+                min = this._toNumber(el.attr('data-min')) || cfg.min,
+                max = this._toNumber(el.attr('data-max')) || cfg.max;
+
+            return {
+                max: max,
+                min: min
+            };
+        },
+        getLayer: function() {
+            var self = this;
+            var layer = this._layer;
+
+            if(!layer) {
+                layer = this._layer = new Overlay.Popup({
+                    elCls: self.cfg.cls
+                });
+                layer.render();
+            }
+
+            return layer;
         }
     });
 
