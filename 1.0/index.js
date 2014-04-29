@@ -32,16 +32,21 @@ KISSY.add(function(S, Node, Event, Overlay) {
         _isNumber: function(num){
             return /^\d+(\.\d*)?$/g.test(num);
         },
-        _removeNotNumber: function(el,currentValue){
+        _removeNotNumber: function(el){
+            var currentValue = S.trim(el.val());
             if (!currentValue) return;
             var newValue = currentValue.replace(/[^\d.]/g,'');
             var newValueArray = newValue.split('.');
             if (newValueArray.length > 2) {
                 newValue = newValueArray.shift()+'.'+newValueArray.join('');
             };
+            if (newValue.indexOf('.')==0) {
+                newValue = 0+newValue;
+            };
             el.val(newValue);
         },
-        _fixedNumber: function(el,currentValue){
+        _fixedNumber: function(el){
+            var currentValue = S.trim(el.val());
             var fixed =  el[0].fixed != undefined ? el[0].fixed:this.cfg.fixed;
             var index = currentValue.indexOf('.');
             if (typeof fixed == 'number' && index != -1) {
@@ -59,6 +64,7 @@ KISSY.add(function(S, Node, Event, Overlay) {
             error.value && el.val(error.value);
         },
         _showTip: function(el,error){
+            if (!error) return;
             var self = this;
             var key = error.type+'TipText';
             var tipText = S.substitute(el[0][key] || this.cfg[key],error);
@@ -75,10 +81,10 @@ KISSY.add(function(S, Node, Event, Overlay) {
         _hidePopup: function(){
             this.getLayer().hide();
         },
-        _checkNumber: function(el,currentValue){
+        _checkNumber: function(el){
             var min = this._toNumber(el.attr('data-min')) || this._toNumber(el[0].min) || this.cfg.min;
             var max = this._toNumber(el.attr('data-max')) || this._toNumber(el[0].max) || this.cfg.max;
-            var currentValue = this._fixedNumber(el,currentValue);
+            var currentValue = this._fixedNumber(el);
             var error;
             if (currentValue<min) {
                 error = {
@@ -110,12 +116,13 @@ KISSY.add(function(S, Node, Event, Overlay) {
             };
         },
         _checkEL: function(el){
-            var currentValue = S.trim(el.val());
-            if (!this._isNumber(currentValue)) {
-                this._removeNotNumber(el,currentValue);
+            var num = el.val();
+            if (num === '') return;
+            if (!this._isNumber(num)) {
+                this._removeNotNumber(el);
                 this._hidePopup();
             }else{
-                this._checkNumber(el,currentValue);
+                this._checkNumber(el);
             }
         },
         _setEL: function(el,config,callback){
