@@ -34,7 +34,6 @@ KISSY.add(function(S, Node, Event, Overlay) {
         },
         _removeNotNumber: function(el){
             var currentValue = S.trim(el.val());
-            if (!currentValue) return;
             var newValue = currentValue.replace(/[^\d.]/g,'');
             var newValueArray = newValue.split('.');
             if (newValueArray.length > 2) {
