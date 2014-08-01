@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>NumberRange的demo</title>
+    <script src="http://g.tbcdn.cn/kissy/k/1.4.2/seed-min.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="http://g.tbcdn.cn/kissy/k/1.3.0/css/dpl/base-min.css">
+    <style>
+        .ks-overlay {
+          position:absolute;
+          left:-9999px;
+          top:-9999px;
+        }
+        .ks-overlay-hidden {
+          visibility: hidden;
+        }
+
+        .ks-overlay-mask-hidden {
+          display: none;
+        }
+
+        .ks-overlay-shown {
+          visibility: visible;
+        }
+
+        .ks-overlay-mask-shown{
+          display: block;
+        }
+    </style>
+<script>var S = KISSY;S.config({packages:[{name:"kg",path:"http://g.tbcdn.cn/kg/",charset:"utf-8",ignorePackageNameInUri:true}]});if (S.Config.debug){var srcPath = "../";S.config({packages:[{name:"kg/number-range/2.0.0",path:srcPath,charset:"utf-8",ignorePackageNameInUri:true}]});}</script></head>
+<body>
+<h2>NumberRange的demo</h2>
+
+<script>
+    var S = KISSY;
+    if (S.Config.debug) {
+        var srcPath = "../../";
+        S.config({
+            packages:[
+                {
+                    name:"kg/number-range",
+                    path:srcPath,
+                    charset:"utf-8",
+                    ignorePackageNameInUri:true
+                }
+            ]
+        });
+    }
+
+    S.use('kg/number-range/2.0.0/index', function (S, NumberRange) {
+        var $ = S.all;
+        var range = new NumberRange({});
+        range.bind($('.demo1'));
+        range.bind('.demo2',{
+            tipType: 'tip',
+            fixed: 2,
+            offset: [10,10],
+            points: ['cr','cl'],
+            min: 5,
+            max: 20,
+            minTip: '可输入的最小数量为{value}',
+            maxTip: '可输入的最大数量为{value}',
+            success: null,
+            error: null
+        });
+        range.bind($('.demo3'),{
+            success: function(el){
+                alert('数字校验正常，当前input的值='+el.val())
+            },
+            error: function(el,error){
+                alert('数字校验失败，当前input的值='+el.val()+'；错误类型='+error.type+'；当前限值='+error.value)
+            },
+            fixed: 3,
+            min: 5,
+            max: 20,
+        });
+        $('#verify').on('click',function(){
+            range.verify('.demo4',{
+                tipType: 'force',
+                fixed: 2,
+                offset: [10,10],
+                points: ['cr','cl'],
+                min: 5,
+                max: 20,
+                minTip: '最小数量为{value}',
+                maxTip: '最大数量为{value}',
+                success: null,
+                error: null
+            });
+        });
+    })
+</script>
+</body>
+
+range.bind($('.demo1'),{});<br>
+<input type="text" class="demo1" data-min=1 data-max=99><br><br>
+range.bind('.demo2',{});<br>
+<input type="text" class="demo2" ><br><br>
+range.bind($('.demo3'),{});<br>
+<input type="text" class="demo3" data-min=10 data-max=99><br><br>
+range.verify('.demo4',{});<br>
+<input type="text" class="demo4" data-min=10 data-max=99 value="1"><br> 
+<input type="text" class="demo4" data-min=10 data-max=99 value="888"><br>
+<button id="verify">验证</button>
+
+</html>
