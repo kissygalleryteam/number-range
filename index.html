@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Number-range : 数字范围检验组件">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Number-range</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/kissygalleryteam/number-range">View on GitHub</a>
+
+          <h1 id="project_title">Number-range</h1>
+          <h2 id="project_tagline">数字范围检验组件</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/kissygalleryteam/number-range/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/kissygalleryteam/number-range/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h2>
+<a id="number-range" class="anchor" href="#number-range" aria-hidden="true"><span class="octicon octicon-link"></span></a>number-range</h2>
+
+<ul>
+<li>版本：1.0</li>
+<li>作者：圆影</li>
+<li>教程：<a href="http://gallery.kissyui.com/number-range/1.0/guide/index.html">http://gallery.kissyui.com/number-range/1.0/guide/index.html</a>
+</li>
+<li>demo：<a href="http://gallery.kissyui.com/number-range/1.0/demo/index.html">http://gallery.kissyui.com/number-range/1.0/demo/index.html</a>
+</li>
+</ul>
+
+<h2>
+<a id="使用示例" class="anchor" href="#%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B" aria-hidden="true"><span class="octicon octicon-link"></span></a>使用示例</h2>
+
+<pre><code>S.use('gallery/number-range/1.0/index', function (S, NumberRange) {
+    var $ = S.all;
+    var range = new NumberRange({
+        tipType: 'tip',
+        fixed: 2,
+        offset: [10,10],
+        points: ['cr','cl'],
+        min: 5,
+        max: 20,
+        minTip: '可输入的最小数量为{value}',
+        maxTip: '可输入的最大数量为{value}',
+        success: null,
+        error: null
+    });
+
+    // 示例1
+    range.bind($('.demo1'));
+
+    // 示例2
+    range.bind('.demo1');
+
+    // 示例3
+    range.bind('.demo1',{
+        fixed: 2
+    });
+})
+</code></pre>
+
+<h2>
+<a id="changelog" class="anchor" href="#changelog" aria-hidden="true"><span class="octicon octicon-link"></span></a>changelog</h2>
+
+<h3>
+<a id="v10" class="anchor" href="#v10" aria-hidden="true"><span class="octicon octicon-link"></span></a>V1.0</h3>
+
+<pre><code>[!] 支持HTML标签定义数字取值范围 &lt;input type="text" data-min=1 data-max=99 /&gt;
+[!] 支持初始化配置时定义数字取值范围 new NumberRange({min:1,max:99})
+[!] 支持绑定事件时定义数字取值范围 var range = new NumberRange({}); range.bind('.demo',{min:1,max:99})
+[!] 支持校验时时定义数字取值范围 var range = new NumberRange({}); range.verify('.demo',{min:1,max:99})
+[!] 支持小数点，并可以选择保留位数 new NumberRange({fixed:3})
+[!] 支持数字校验方式可选“强制”或“提示” new NumberRange({tipType:'tip'}) //  tip || force
+[!] 支持自定义提示内容 new NumberRange({minTip:'',maxTip:''})
+[!] 支持自定义提示位置 new NumberRange({offset:'',points:''}) 取值参见 overlay 组件
+[!] 支持自定义校验成功失败回调 new NumberRange({success:function(){},error:function(){}})
+</code></pre>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Number-range maintained by <a href="https://github.com/kissygalleryteam">kissygalleryteam</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
